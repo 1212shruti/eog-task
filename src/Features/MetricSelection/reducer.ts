@@ -4,14 +4,9 @@ export type ApiErrorAction = {
   error: string;
 };
 
-export type Option = {
-  label: string;
-  value: string
-}
-
 export type InitialState = {
   metrics: Array<string>
-  selectedMetrics: Array<Option>
+  selectedMetrics: Array<string>
 }
 
 const initialState: InitialState = {
@@ -27,7 +22,7 @@ const slice = createSlice({
       state.metrics = action.payload;
     },
     metricApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
-    metricsSelected: (state, action: PayloadAction<Array<Option>>) => {
+    metricsSelected: (state, action: PayloadAction<Array<string>>) => {
       state.selectedMetrics = action.payload;
     },
   },

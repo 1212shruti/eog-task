@@ -6,7 +6,12 @@ import { createSelector } from 'redux-starter-kit';
 import { Provider, useQuery } from 'urql';
 import { client } from '../../constants';
 import { IState } from '../../store';
-import { actions, Option } from './reducer';
+import { actions } from './reducer';
+
+type Option = {
+  label: string;
+  value: string
+};
 
 const useStyles = makeStyles({
   select: {
@@ -25,7 +30,10 @@ export const getMetricSelectOptions = createSelector(
   (metrics: Array<string>) => metrics.map((metric: string) => ({ label: metric, value: metric })) 
 )
 
-export const getSelectedMetrics = (state: IState) => state.metric.selectedMetrics;
+export const getSelectedMetrics = createSelector(
+  (state: IState) => state.metric.selectedMetrics,
+  (metrics: Array<string>) => metrics.map((metric: string) => ({ label: metric, value: metric })) 
+)
 
 export default () => {
   return (
@@ -42,11 +50,9 @@ const MetricSelection = () => {
   const options: Array<Option> = useSelector(getMetricSelectOptions);
   const selectedValues: Array<Option> = useSelector(getSelectedMetrics);
 
-  const [result] = useQuery({
+  const [{ data, error }] = useQuery({
     query,
   });
-
-  const { data, error } = result;
 
   useEffect(() => {
     if (error) {
@@ -58,8 +64,8 @@ const MetricSelection = () => {
     dispatch(actions.metricDataRecevied(getMetrics));
   }, [dispatch, data, error]);
 
-  const onChange = (values: any) => {
-    dispatch(actions.metricsSelected(values))
+  const onChange = (opts: any) => {
+    dispatch(actions.metricsSelected(opts.map(({ value }: Option) => value )));
   }
 
   return (

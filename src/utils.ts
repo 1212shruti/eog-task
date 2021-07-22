@@ -1,0 +1,1 @@
+export const calcThirtyMinutesPastTime = () => new Date().valueOf() - 30 * 60 * 1000;

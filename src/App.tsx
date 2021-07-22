@@ -9,6 +9,8 @@ import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import NowWhat from './components/NowWhat';
 import MeasurementSelection from './Features/MetricSelection/MetricSelection';
+import MetricChart from './Features/MetricChart/MetricChart';
+import Subscriber from './components/Subscriber';
 
 const store = createStore();
 const theme = createMuiTheme({
@@ -29,10 +31,11 @@ const App = () => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <Provider store={store}>
+      <Subscriber />
       <Wrapper>
         <Header />
-        {/* <NowWhat /> */}
         <MeasurementSelection />
+        <MetricChart />
       </Wrapper>
     </Provider>
   </MuiThemeProvider>
